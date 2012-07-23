@@ -1,0 +1,30 @@
+HLOs - how affects
+	- Autopilot is the subsystem actually controling the blimp. It is necessary for having an automated system.
+System reuqirements + rationale
+	- Q, R, S, T
+subsystem architecture
+	- IMU - measures accelerations and angular velocity; computes position and velocity and such
+	- guidance computer, responsible for waypoint generation, control laws
+trade studies
+	- considered four computers, two IMUs
+	- wanted linux, 9dof
+	- selected BeagleBone computer, and ArduIMU+ V3
+interfaces
+	- power - 5v, several watts
+	- proximity sensors - software interrupt
+	- interface with other subsystem programs - dbus
+	- telemetry - D-bus
+	- propulsion - D-bus
+	- airframe - tape + padding for imu, GC in gondola
+	- image processing - input position vector via dbus
+	- 
+preliminary design
+	- IMU connected to BeagleBone via UART; imu tx -> beaglebone rx
+	- IMU has an integrated 3axis accelerometer + gyro, and a magnemtometer chip, with an atmega 328 MCU
+	- extended kalman filter on IMU MCU, printing to serial
+	- gc runs angstrom linux, may change to gentoo or ubuntu
+	- finite state machine on gc, changes states based on operating mode
+	- fsm generates different waypoints for each state
+	- passes waypoint, kinematic state to velocity calculator
+	- creates estimated trajectory, solves for velocity and thus force
+	- pid controllers to act on output force

@@ -1,0 +1,26 @@
+Software:
+* TOPCASED -- CASE tool
+
+* Mathematica  \
+* Matlab        -- Analysis and simulation
+* OpenModelica /
+
+Specs:
+* UML
+* SysML
+* MARTE
+* Modelica
+* MOFM2T
+* XTCE
+* OCL
+* QVT
+* IEEE Radar definitions
+* IEEE Navigation definitions
+* SysML-Modelica Transform
+* IEEE Inertial Sensor definitions
+
+Books:
+* SMAD
+* Nasa Systems Engineering Handbook
+* INCOSE SE Handbook
+* Avionics Navigation Systems
