@@ -11,16 +11,37 @@ using namespace std;
 
 void ReadIMU(char* out,int &length)
 {
+	//Read serial from here
 	return;
 }
 
+void Initialise(){}
+void ProcessEvents(){}
+void ActOnState(){}
 int main() {
-	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	char* imuData = NULL;
-	int length = -1;
+	cout << "Starting up the guidance :3" << endl;
+	Initialise();
 	while(true)
 	{
-		 ReadIMU(imuData, length);
+		char* imuData = NULL;
+		int length = -1;
+		ReadIMU(imuData, length);
+		if (length == 0)
+		{
+			cout << "IMU hasn't sent another packet yet, yo" << endl;
+		}
+		else if (length <= -1)
+		{
+			cerr << "Something dun gone goofed reading from the IMU!" << endl;
+		}
+		else
+		{
+			//Grab kinematic state from IMU here
+		}
+
+		ProcessEvents();
+
+		ActOnState();
 	}
 
 }
