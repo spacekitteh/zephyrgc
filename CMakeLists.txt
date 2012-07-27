@@ -13,6 +13,8 @@ SET(CheckSources cppcheck --template=gcc --enable=all ${GC_Sources})
 ADD_TEST(cppcheck ${CheckSources})
 ADD_TEST(valgrind valgrind ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}gc)
 
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c++0x")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
 
 ADD_EXECUTABLE(gc ${GC_Sources})
