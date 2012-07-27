@@ -3,11 +3,16 @@
 // Author      : Sophie Taylor
 // Version     : wat
 // Copyright   : sup
-// Description : Hello World in C++, Ansi-style
+// Description : Main program for autopilot
 //============================================================================
 
 #include <iostream>
+#include <exception>
+#include <stdexcept>
+#include <cassert>
+#include <memory>
 
+#include "zephyrgc.h"
 using namespace std;
 
 void ReadIMU(char* out,int &length)
@@ -15,37 +20,24 @@ void ReadIMU(char* out,int &length)
 	//Read serial from here
 	return;
 }
-struct KinematicState
-{
-	float X;
-	float Y;
-	float Z;
-	float Roll;
-	float Pitch;
-	float Yaw;
-	float Xdot;
-	float Ydot;
-	float Zdot;
-	float Rolldot;
-	float Pitchdot;
-	float Yawdot;
-};
+
 void Initialise(){}
 void ProcessEvents(){}
 void ActOnState(){}
-void ParseIMUData(KinematicState &state, char* imuData, int length)
+void ParseIMUData(shared_ptr<KinematicState> state, char* imuData, int length)
 {
 
 }
 int main() {
 	cout << "Starting up the guidance :3" << endl;
 	Initialise();
-	KinematicState state;
+	shared_ptr<KinematicState> state (new KinematicState());
 	while(true)
 	{
 		char* imuData = NULL;
 		int length = -1;
 		ReadIMU(imuData, length);
+		assert(length >= 1);
 		if (length == 0)
 		{
 			cout << "IMU hasn't sent another packet yet, yo" << endl;
@@ -53,11 +45,18 @@ int main() {
 		else if (length <= -1)
 		{
 			cerr << "Something dun gone goofed reading from the IMU!" << endl;
+			throw system_error("Communication lost with IMU; check cable");
 		}
 		else
 		{
 			//Grab kinematic state from IMU here
 			ParseIMUData(state, imuData, length);
+		}
+
+		if(state.Z <= 0)
+		{
+			cerr << "Um, height less than zero?";
+			throw runtime_error("Height less than zero");
 		}
 
 		ProcessEvents();
