@@ -11,8 +11,10 @@
 #include <stdexcept>
 #include <cassert>
 #include <memory>
+#include <system_error>
 
 #include "zephyrgc.h"
+
 using namespace std;
 
 void ReadIMU(char* out,int &length)
@@ -45,7 +47,7 @@ int main() {
 		else if (length <= -1)
 		{
 			cerr << "Something dun gone goofed reading from the IMU!" << endl;
-			throw system_error("Communication lost with IMU; check cable");
+			throw runtime_error("Communication lost with IMU; check cable");
 		}
 		else
 		{
@@ -53,7 +55,7 @@ int main() {
 			ParseIMUData(state, imuData, length);
 		}
 
-		if(state.Z <= 0)
+		if(state->Z <= 0)
 		{
 			cerr << "Um, height less than zero?";
 			throw runtime_error("Height less than zero");
