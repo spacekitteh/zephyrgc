@@ -12,6 +12,7 @@
 #include <cassert>
 #include <memory>
 #include <system_error>
+#include <cstring>
 
 #include "zephyrgc.h"
 
@@ -28,7 +29,9 @@ void ProcessEvents(){}
 void ActOnState(){}
 void ParseIMUData(shared_ptr<KinematicState> state, char* imuData, int length)
 {
-
+  assert(sizeof(KinematicState) == length);
+  //THIS IS A SUPER FUCKING BAD IDEA
+  memcpy(state.get(), (void*)imuData, length);
 }
 int main() {
 	cout << "Starting up the guidance :3" << endl;
